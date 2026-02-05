@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>VScode调试教程 | Gin's Blog</title><meta name="author" content="Gin"><meta name="copyright" content="Gin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="大家好，我是Gin。Vscode的调试问题想必困扰了很多人，其实原理很简单，今天我就来做一个C语言调试的详细教程。希望看了我的教程之后可以帮助到大家。 Clang调试方法 单文件调试 下载CodeLLDB插件 首先第一步，我们需要在Vscode的插件商店中去下载一个叫做CodeLLDB的插件。 如下图所示  写一个简单程序 我们先写一个简单的程序 main.c 1234567891011#incl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VScode调试教程">
+<meta property="og:url" content="http://example.com/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Gin&#39;s Blog">
+<meta property="og:description" content="大家好，我是Gin。Vscode的调试问题想必困扰了很多人，其实原理很简单，今天我就来做一个C语言调试的详细教程。希望看了我的教程之后可以帮助到大家。 Clang调试方法 单文件调试 下载CodeLLDB插件 首先第一步，我们需要在Vscode的插件商店中去下载一个叫做CodeLLDB的插件。 如下图所示  写一个简单程序 我们先写一个简单的程序 main.c 1234567891011#incl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/photo/VScode/cover.png">
+<meta property="article:published_time" content="2026-02-04T06:07:00.000Z">
+<meta property="article:modified_time" content="2026-02-05T05:51:59.436Z">
+<meta property="article:author" content="Gin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/photo/VScode/cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VScode调试教程",
+  "url": "http://example.com/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/",
+  "image": "http://example.com/photo/VScode/cover.png",
+  "datePublished": "2026-02-04T06:07:00.000Z",
+  "dateModified": "2026-02-05T05:51:59.436Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Gin",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/huge.jpg"><link rel="canonical" href="http://example.com/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Gin","link":"链接: ","source":"来源: Gin's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'VScode调试教程',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/links2.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/photo/VScode/cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" alt="Logo"><span class="site-name">Gin's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">VScode调试教程</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">VScode调试教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-04T06:07:00.000Z" title="发表于 2026-02-04 14:07:00">2026-02-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-05T05:51:59.436Z" title="更新于 2026-02-05 13:51:59">2026-02-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-02-05 13:51:59&quot;}" hidden></div><p>大家好，我是Gin。Vscode的调试问题想必困扰了很多人，其实原理很简单，今天我就来做一个C语言调试的详细教程。希望看了我的教程之后可以帮助到大家。</p>
+<h1>Clang调试方法</h1>
+<h2 id="单文件调试">单文件调试</h2>
+<h4 id="下载CodeLLDB插件">下载CodeLLDB插件</h4>
+<p>首先第一步，我们需要在Vscode的插件商店中去下载一个叫做<strong>CodeLLDB</strong>的插件。<br>
+如下图所示<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/codelldb.png" alt="CodeLLDB"></p>
+<h4 id="写一个简单程序">写一个简单程序</h4>
+<p>我们先写一个简单的程序<br>
+main.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> num1 = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> num2 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;num1, &amp;num2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;--START--\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>, num1, num2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;--END--\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="简单程序介绍">简单程序介绍</h4>
+<p>好的，这是一个非常简单的C程序。这个程序中给定了两个变量，再通过 <strong>scanf()</strong> 读取数，随后在通过 <strong>printf()</strong> 打印出来。我添加了 <strong>printf(“–START–\n”);</strong> 和 <strong>printf(“–END–\n”);</strong> 是为了更直观的反应出输出程序的开始和结束。</p>
+<h4 id="调试前准备工作">调试前准备工作</h4>
+<p>接下来就可以开始我们的调试了<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/main1.png" alt="调试按钮"><br>
+首先我们先按一下右上角的按钮，点击调试C/C++文件<br>
+随后便会出现让你选择调试配置的页面，我们选择 <strong>Clang 构建和调试活动文件</strong> 即可。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/main2.png" alt="Clang构建和调试活动文件"><br>
+之后就会出现 <strong>终端将被任务重用，按任意键关闭</strong> ，没有关系我们这一步就是为了叫做 <strong>tasks.json</strong> 的文件，随后我们打开它。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/main3.png" alt="终端关闭报错"><br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/main4.png" alt="tasks.json文件"><br>
+我们打开了这个<strong>tasks.json</strong>的文件之后就会看到这么一大串我们看不懂的东西。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks1.png" alt="tasks.json"><br>
+没有关系这个文件我们先备用着，接下来就是关键的部分了</p>
+<h4 id="生成一个launch-json的文件">生成一个launch.json的文件</h4>
+<p>我们点击最左边的这个按钮（我在下面的图片中有圈出来）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks2.png" alt="按钮"><br>
+点进去之后就可以看到<strong>生成一个launch.json的文件</strong>的选项，我们点击（我画线的部分）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks3.png" alt="launch.json文件生成"><br>
+点击<strong>创建一个launch.json 文件</strong>之后上端就会出现<strong>选择调试器</strong>这个标识，选择我CodeLLDB（我圈出来的部分）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks4.png" alt="按CodeLLDB"><br>
+点击<strong>CodeLLDB</strong>之后，<strong>千万千万不要选择 C/C++:(lldb)启动、C/C++:(lldb)附加这些东西</strong>千万不要。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks5.png" alt="按CodeLLDB选择选项"></p>
+<h4 id="开始配置调试文件">开始配置调试文件</h4>
+<p>OK，现在我们的准备工作也算是做完了，接下来我们就要开始配置调试文件了<br>
+我们先打开我们刚才生成好的<strong>tasks.json</strong>的文件,随后复制一下我标注出来的部分。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks6.png" alt="复制的部分"><br>
+复制完成之后我们再打开我们的<strong>launch.json</strong>文件，把我们刚才复制的内容粘贴到我做标记的部分。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks7.png" alt="粘贴到your program"><br>
+随后保存就可以，接下来我们还要再配置一项内容，配置完成这项内容之后我们每一次修改完源文件就不需要再重新点击调试按钮重新生成，而是直接点击运行就可以了。<br>
+那么按我的方法接下去配置，首先打开<strong>launch.json</strong>文件，创建一个<br>
+<strong>preLaunchTask</strong> (下图我标注出来的部分就是要创建这个条件的地方，注意：一定要加上双引号，在最后加上逗号)<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks8.png" alt="创建preLaunchTask"><br>
+创建完<strong>preLaunchTask</strong>之后，再打开<strong>tasks.json</strong>文件，复制我所标记的部分<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks9.png" alt="复制c/C++生成调试文件"><br>
+复制完成之后我们在打开<strong>launch.json</strong>文件，随后把我刚才复制的那部分粘贴到我标记的部分。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks10.png" alt="粘贴c/C++生成调试文件"><br>
+好了，这样子我们的调试文件就全部都配置完成了，接下来便可以开始调试运行我们的程序了。</p>
+<h4 id="开始调试">开始调试</h4>
+<p>我们先别着急运行，可以先添加一些断点，下面图片中每一行代码前面的红色小点点就是断点（添加断点的方法非常简单：只需要点击一下每一行代码数字前面就可以了）随后我们点击Launch边上的开始按钮（我也画红线标注了）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks11.png" alt="添加断点并运行"><br>
+这样子，我们的程序就被调试运行起来了也是，我们可以在下面终端处输入数字，然后点击单步调试等就可以开始调试了（我圈出来了）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/tasks12.png" alt="开始调试并交互"><br>
+好的，单文件的调试方法现在已经给大家讲完了，希望大家看到这里可以有一些收获。</p>
+<h2 id="多文件调试">多文件调试</h2>
+<p>讲完了单文件调试，我现在要给大家讲一讲多文件调试了</p>
+<h4 id="写一个简单的程序">写一个简单的程序</h4>
+<p>和单文件一样，我们先写一个简单的程序<br>
+add.h</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span>;</span><br></pre></td></tr></table></figure>
+<p>main.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;add.h&quot;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    <span class="type">int</span> ret = add(a, b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ret);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>add.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> c = a + b;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="简单介绍一下程序">简单介绍一下程序</h4>
+<p>好了，程序写完了，我先简单介绍一下这个程序吧。首先，在add.h这个文件里放的是这个程序的所有声明（包括主函数的声明也在里面）在main.c这个文件里面定义了两个变量a,b，随后通过scanf（）输入值传到add函数中去，在通过ret来接收add函数的返回值，然后打印出来。在add.c这个文件中接收a,b的值，随后算出a + b的值然后在返回a + b的和。</p>
+<h4 id="多文件调试前的准备工作">多文件调试前的准备工作</h4>
+<p>和单文件调试一样，我们先按一下右上角的按钮生成 <strong>tasks.json</strong> 的文件 <strong>切记切记，一定要在main.c这个主函数中去按</strong> 然后跟单文件调试一样，选择 <strong>Clang</strong> 就可以了。随后，程序就会发出一个报错，没有关系，我们这步只是为了生成 <strong>tasks.json</strong> 这个文件，我们点终止就可以了（我在下图全圈出来了）<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/then1.png" alt="点终止"><br>
+那么这样子我们目的达成 <strong>tasks.json</strong> 文件生成了，接下来我们和单文件的方法一样去创建一个 <strong>launch.json</strong> 的文件，（选择CodeLLDB）。同样去 <strong>tasks.json</strong> 中复制随后粘贴到 <strong>launch.json</strong> 中去，别忘了也创建一个 <strong>preLaunchTask</strong></p>
+<p>由于是多文件调试，接下来就展示一下和单文件调试不一样的地方，我们还要在 <strong>tasks.json</strong> 文件中添加一下我们另外一个文件（例如：add.c）的名字，如下图所示。<br>
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/then2.png" alt="添加图片"></p>
+<h4 id="开始调试-2">开始调试</h4>
+<p>添加完成文件之后就可以开始调试了，和单文件一样。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Gin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/">http://example.com/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Gin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/photo/VScode/cover.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/02/04/%E4%B8%89%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F%E4%BB%A3%E7%A0%81/" title="三子棋游戏代码"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/sanziqi.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">三子棋游戏代码</div></div><div class="info-2"><div class="info-item-1">这个三子棋游戏的代码是参考B站up主：鹏哥C语言的课程里面的。 main.c 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071#include &quot;game.h&quot;void menu()&#123;    printf(&quot;*******************************\n&quot;);    printf(&quot;***  1. play     0. exit    ***\n&quot;);    printf(&quot;*******************************\n&quot;);&#125;void game()&#123;    char ret = 0;    char board[ROW][COL] = &#123;0&#125;;    //初始化棋盘的函数    InitBoar...</div></div></div></a><a class="pagination-related" href="/2026/02/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客文章"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">我的第一篇博客文章</div></div><div class="info-2"><div class="info-item-1">个人简述 大家好，我是Gin。我是一个来自浙江的职高生，专业：机电技术应用，由于我小学的时候没有学习编程，初中的时候又没有电脑，当时想要学习python但是电脑是真的太卡了，所以学编程的事情就算是放了下来，就是在初三中考完的暑假里，我拥有了我自己的电脑，但是我的电脑是mac。当时刚开始学习C语言，我什么也不懂，看着网上不知名的课程在那边瞎写代码，然后就是遇到一大堆报错，我用vscode输出“Hello world！“都用了好几个小时的时间。在学C语言的时候，有听说可以通过调试来学习C语言可以理解的更加深入，结果我真的是啥也不懂配置调试文件也弄了好久。我刚开始的时候不知道调试文件是每一个项目都要重新配置的，所以就一直没有用调试来学习。 我是学习到C语言将近到一半的时候才开始会配置调试文件的，AI非常好用我就问AI，AI不会就看视频来学习，反正调试就是学会了。其实我本来不是职高生，我们浙江这边有一个政策叫做普职融通班（就是普高的学生转到职高，职高的学生转到普高）我所在的普高比较烂，只有一个理科班，而且我高一第一学期学习非常不认真，可想而知我的成绩是非常差劲的，所以我选择了普职融通这条...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Gin</div><div class="author-info-description">创作者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Ginphotography"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Ginphotography" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:3888955404@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=9170542878" target="_blank" title="Music"><i class="fa-solid fa-music"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Clang调试方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95"><span class="toc-text">单文件调试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDCodeLLDB%E6%8F%92%E4%BB%B6"><span class="toc-text">下载CodeLLDB插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%A8%8B%E5%BA%8F"><span class="toc-text">写一个简单程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%A8%8B%E5%BA%8F%E4%BB%8B%E7%BB%8D"><span class="toc-text">简单程序介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%89%8D%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">调试前准备工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AAlaunch-json%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-text">生成一个launch.json的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AE%E8%B0%83%E8%AF%95%E6%96%87%E4%BB%B6"><span class="toc-text">开始配置调试文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E8%B0%83%E8%AF%95"><span class="toc-text">开始调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95"><span class="toc-text">多文件调试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="toc-text">写一个简单的程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E7%A8%8B%E5%BA%8F"><span class="toc-text">简单介绍一下程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">多文件调试前的准备工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E8%B0%83%E8%AF%95-2"><span class="toc-text">开始调试</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/" title="VScode调试教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VScode调试教程"/></a><div class="content"><a class="title" href="/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/" title="VScode调试教程">VScode调试教程</a><time datetime="2026-02-04T06:07:00.000Z" title="发表于 2026-02-04 14:07:00">2026-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/04/%E4%B8%89%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F%E4%BB%A3%E7%A0%81/" title="三子棋游戏代码"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/sanziqi.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="三子棋游戏代码"/></a><div class="content"><a class="title" href="/2026/02/04/%E4%B8%89%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F%E4%BB%A3%E7%A0%81/" title="三子棋游戏代码">三子棋游戏代码</a><time datetime="2026-02-04T06:07:00.000Z" title="发表于 2026-02-04 14:07:00">2026-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客文章"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的第一篇博客文章"/></a><div class="content"><a class="title" href="/2026/02/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客文章">我的第一篇博客文章</a><time datetime="2026-02-03T00:45:00.000Z" title="发表于 2026-02-03 08:45:00">2026-02-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Gin</span></div><div class="footer_custom_text">Welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css')
+    if (false) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
