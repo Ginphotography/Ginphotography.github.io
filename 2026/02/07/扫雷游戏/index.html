@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>扫雷游戏 | Gin's Blog</title><meta name="author" content="Gin"><meta name="copyright" content="Gin"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="游戏介绍 大家好，我是Gin。今天我来给大家看一个好玩的C语言小游戏，主要是运用了 二维数组 、 循环 、 if else语句 等等来实现的，虽然这个游戏比较基础，比较简陋，但是还是可以玩的比较开心，扫雷的基本功能也还是在的，我是在看 B站鹏哥C语言 课程的时候了解到的，那么下面就深入的讲讲这个程序。这个游戏代码量不大，由主程序在 main.c 这个文件里，游戏程序在 game.c 这个文件里，以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="扫雷游戏">
+<meta property="og:url" content="http://www.codegin.top/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/index.html">
+<meta property="og:site_name" content="Gin&#39;s Blog">
+<meta property="og:description" content="游戏介绍 大家好，我是Gin。今天我来给大家看一个好玩的C语言小游戏，主要是运用了 二维数组 、 循环 、 if else语句 等等来实现的，虽然这个游戏比较基础，比较简陋，但是还是可以玩的比较开心，扫雷的基本功能也还是在的，我是在看 B站鹏哥C语言 课程的时候了解到的，那么下面就深入的讲讲这个程序。这个游戏代码量不大，由主程序在 main.c 这个文件里，游戏程序在 game.c 这个文件里，以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.codegin.top/img/links5.jpg">
+<meta property="article:published_time" content="2026-02-07T05:15:15.000Z">
+<meta property="article:modified_time" content="2026-02-07T12:39:56.445Z">
+<meta property="article:author" content="Gin">
+<meta property="article:tag" content="代码">
+<meta property="article:tag" content="小项目">
+<meta property="article:tag" content="练手程序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.codegin.top/img/links5.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "扫雷游戏",
+  "url": "http://www.codegin.top/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/",
+  "image": "http://www.codegin.top/img/links5.jpg",
+  "datePublished": "2026-02-07T05:15:15.000Z",
+  "dateModified": "2026-02-07T12:39:56.445Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Gin",
+      "url": "http://www.codegin.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/huge.jpg"><link rel="canonical" href="http://www.codegin.top/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Gin","link":"链接: ","source":"来源: Gin's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '扫雷游戏',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/links2.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/links5.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" alt="Logo"><span class="site-name">Gin's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">扫雷游戏</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">扫雷游戏</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-07T05:15:15.000Z" title="发表于 2026-02-07 13:15:15">2026-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-07T12:39:56.445Z" title="更新于 2026-02-07 20:39:56">2026-02-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-02-07 20:39:56&quot;}" hidden></div><h1>游戏介绍</h1>
+<p>大家好，我是Gin。今天我来给大家看一个好玩的C语言小游戏，主要是运用了 <strong>二维数组</strong> 、 <strong>循环</strong> 、 <strong>if else语句</strong> 等等来实现的，虽然这个游戏比较基础，比较简陋，但是还是可以玩的比较开心，扫雷的基本功能也还是在的，我是在看 <strong>B站鹏哥C语言</strong> 课程的时候了解到的，那么下面就深入的讲讲这个程序。这个游戏代码量不大，由主程序在 <strong>main.c</strong> 这个文件里，游戏程序在 <strong>game.c</strong> 这个文件里，以及函数、头文件、定量的声明程序 <strong>game.h</strong> 这个程序组成。c如果要实现标记等功能，还会麻烦很多。</p>
+<h1>游戏本体代码</h1>
+<h2 id="main-c文件">main.c文件</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;game.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">menu</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;1. play\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;0. exit\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">game</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> mine[ROWS][COLS] = &#123;<span class="number">0</span>&#125;;   <span class="comment">//存放布置好的雷的信息</span></span><br><span class="line">    <span class="type">char</span> show[ROWS][COLS] = &#123;<span class="number">0</span>&#125;;   <span class="comment">//存放排查出的雷的信息</span></span><br><span class="line">    <span class="comment">//初始化数组的内容为指定的内容</span></span><br><span class="line">    <span class="comment">//mine数组在没有初始化的时候，都是&#x27;0&#x27;</span></span><br><span class="line">    Initboard(mine, ROWS, COLS, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    <span class="comment">//show数组在没有初始化的时候，都是&#x27;*&#x27;</span></span><br><span class="line">    Initboard(show, ROWS, COLS, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//布置雷</span></span><br><span class="line">    Setmine(mine, ROW, COL);</span><br><span class="line">    <span class="comment">//Displayboard(mine, ROW, COL);</span></span><br><span class="line">    Displayboard(show, ROW, COL);</span><br><span class="line">    <span class="comment">//排查雷</span></span><br><span class="line">    Findmine(mine, show, ROW, COL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> input = <span class="number">0</span>;</span><br><span class="line">    srand ((<span class="type">unsigned</span> <span class="type">int</span>)time(<span class="literal">NULL</span>));</span><br><span class="line">    <span class="keyword">do</span> </span><br><span class="line">    &#123;</span><br><span class="line">        menu();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;请选择:&gt;&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;input);</span><br><span class="line">        <span class="keyword">switch</span>(input)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            game();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;退出游戏\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;选择错误，重新选择:&gt;&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span>(input);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="game-c文件">game.c文件</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;game.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Initboard</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> rows, <span class="type">int</span> cols, <span class="type">char</span> a)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; rows; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; cols; j ++)</span><br><span class="line">        &#123;</span><br><span class="line">            board[i][j] = a;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Displayboard</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;······ 扫雷游戏 ······\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt;= col; j ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, j);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= row; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, i);</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">1</span>; j &lt;= col; j ++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>, board[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Setmine</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> count = EASY_COUNT;</span><br><span class="line">    <span class="keyword">while</span> (count)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = rand() % row + <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> y = rand() % col + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (board[x][y] == <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            board[x][y] = <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">            count --;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">get_mine_count</span><span class="params">(<span class="type">char</span> mine[ROWS][COLS], <span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (mine[x - <span class="number">1</span>][y - <span class="number">1</span>] +</span><br><span class="line">    mine[x - <span class="number">1</span>][y] +</span><br><span class="line">    mine[x - <span class="number">1</span>][y + <span class="number">1</span>] +</span><br><span class="line">    mine[x][y - <span class="number">1</span>] +</span><br><span class="line">    mine[x][y + <span class="number">1</span>] +</span><br><span class="line">    mine[x + <span class="number">1</span>][y - <span class="number">1</span>] +</span><br><span class="line">    mine[x + <span class="number">1</span>][y - <span class="number">1</span>] +</span><br><span class="line">    mine[x + <span class="number">1</span>][y] - <span class="number">8</span> * <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Findmine</span><span class="params">(<span class="type">char</span> mine[ROWS][COLS], <span class="type">char</span> show[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> y = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> win = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (win &lt; row * col - EASY_COUNT)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;请输入你要排查的坐标:&gt;&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;x, &amp;y);</span><br><span class="line">        <span class="keyword">if</span> (x &gt;= <span class="number">1</span> &amp;&amp; x &lt;= row &amp;&amp; y &gt;= <span class="number">1</span> &amp;&amp; y &lt;= col)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (show[x][y] != <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;该坐标已被排查，不能重新排查\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (mine[x][y] == <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;很遗憾,你被炸死了\n&quot;</span>);</span><br><span class="line">                    Displayboard(mine, ROW, COL);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    win ++;</span><br><span class="line">                    <span class="type">int</span> count = get_mine_count(mine, x + <span class="number">1</span>, y + <span class="number">1</span>);</span><br><span class="line">                    show[x][y] = count + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                    Displayboard(show, ROW, COL);</span><br><span class="line">                &#125; </span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;您输入的坐标错误,重新输入:&gt;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (win == row * col - EASY_COUNT)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;恭喜你排雷成功！\n&quot;</span>);</span><br><span class="line">        Displayboard(mine, ROW, COL);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="game-h文件">game.h文件</h2>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ROW 9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> COL 9</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ROWS 9 + 2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> COLS 9 + 2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> EASY_COUNT 10</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Initboard</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> rows, <span class="type">int</span> cols, <span class="type">char</span> a)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Displayboard</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Setmine</span><span class="params">(<span class="type">char</span> board[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Findmine</span><span class="params">(<span class="type">char</span> mine[ROWS][COLS], <span class="type">char</span> show[ROWS][COLS], <span class="type">int</span> row, <span class="type">int</span> col)</span>;</span><br></pre></td></tr></table></figure>
+<h1>深入讲解这个游戏</h1>
+<p>为了让大家更好的看到这个游戏的所有代码，我把这个游戏的代码复制到下面，有需要的小伙伴们可以复制到自己创建的文件夹里先玩一玩。现在我们来深入讲讲这个程序。</p>
+<h2 id="main-c文件分析">main.c文件分析</h2>
+<h3 id="main主调函数">main主调函数</h3>
+<p>我们先来看 <strong>main</strong> 这个主函数，这个主函数里面包含了一个 <strong>srand</strong> 函数，而这个 <strong>srand</strong> 函数中又包含了一个 <strong>time</strong> 函数，由于 <strong>time</strong> 函数函数的原型中是传入一个传入一个指针，但是由于欧我们用这个time函数是为了生成随机数，所以传入一个空指针就可以了。 <strong>time</strong>函数原型如下图所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">time_t</span> <span class="title function_">time</span><span class="params">(<span class="type">time_t</span> *timer)</span>;</span><br></pre></td></tr></table></figure>
+<p>随后，是使用了一个 <strong>do while</strong> 循环，使用 <strong>do while</strong> 循环的目的就是让程序先做，在执行判断程序，当数入的值为0的时候，整个程序就不会再继续。随后就是调用了一下 <strong>menu</strong> 函数，如你所见， 用 <strong>main</strong> 主函数还调用了一个叫做 <strong>menu</strong> 的函数，大家想必是看一眼就知道这个函数是干什么用的，就是打印一个菜单让用户选择。然后在执行 <strong>switch case</strong> 语句，用户选择 <strong>1</strong> 的时候，就调用 <strong>game</strong> 这个函数随后玩游戏，用户选择 <strong>0</strong> 的时候，就退出游戏。</p>
+<h4 id="game函数">game函数</h4>
+<p>有名字就可以知道，这个 <strong>game</strong> 放着这个游戏中最最最重要的部分，我先简单介绍一下 <strong>game</strong> 中的各个参数是干什么的。<br>
+首先就是两个二维数组，其中 <strong>mine</strong> 这个数组使用来存放布置好雷的信息，而 <strong>show</strong> 这个数组则是用来存放排查出来雷的信息的。那么很多人就会有疑惑，为什么要用两个数组呢？因为我们这个程序中的数组中存放的值是要展现给用户的，如果只有一个数组，那总不可以既存放布置好雷的信息，又存放排查出雷的信息吧，如果全部都存放了，那岂不是就可以看到雷在哪里布置了吗？所以要创建两个二维数组。</p>
+<p>介绍完了要用到的数组，接下来就来介绍一下这个 <strong>geme</strong> 函数中调用的函数，我们在这里只是简单的介绍一下这些函数的作用，主要的思考思路在下面会讲。</p>
+<ol>
+<li><strong>Initboard();</strong> 这个函数，这个函数是用来初始化数组的，我们便于区分，就把排查雷的数组 <strong>mine</strong> 里面的所有值初始化成为 <strong>字符零</strong> 即（‘0’），注意：是 <strong>字符零</strong> 而不是数字 <strong>0</strong>，把 <strong>show</strong> 这个数组里的值转化成为 **‘*’**为什么呢，在深入讲这个函数的时候会讲。</li>
+<li><strong>Setmine();</strong> 这个函数就是布置雷，布置在数组 <strong>mine</strong> 中</li>
+<li><strong>Displayboard();</strong> 这个函数很简单，就是打印这个数组的值按照 <strong>9 x 9</strong> 的这种形式，但是里面还有很多小细节，下面会讲到。</li>
+<li><strong>Findmine();</strong> 这个函数就是排查雷，细节也很多，下面讲。</li>
+</ol>
+<h2 id="game-h">game.h</h2>
+<p>这个文件里面放的都是一些声明，所以先给大家讲。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://www.codegin.top">Gin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://www.codegin.top/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/">http://www.codegin.top/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://www.codegin.top" target="_blank">Gin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81/">代码</a><a class="post-meta__tags" href="/tags/%E5%B0%8F%E9%A1%B9%E7%9B%AE/">小项目</a><a class="post-meta__tags" href="/tags/%E7%BB%83%E6%89%8B%E7%A8%8B%E5%BA%8F/">练手程序</a></div><div class="post-share"><div class="social-share" data-image="/img/links5.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/02/06/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="C语言学习记录"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">C语言学习记录</div></div><div class="info-2"><div class="info-item-1">本章是基于，《C Primer Plus 第六版》的框架来搭建的，我会在学习的过程中补充很多书中没有的东西或者是我自己理解的内容。 如何学习C语言 学习方法： 多练习 1.一定要多写代码，可以拿纸写，看了技术书籍或者课程之后一定要多多刷题，刷练习题、刷课后习题 2.练习的目的是熟悉语法，语法熟悉了才能无障碍的写代码 3.练习是在锻炼编程思维，就是把实际问题转换成代码的能力 学会画图 1.画图去理解内存，理解指针 2.画图可以理清思路 3.画图可以辅助理解，强化理解 学会调试 1.借助调试，可以让我们可以更好的理解和感知代码 2.借助调试，可以让我们找出代码中的bug 初识C语言 C语言的起源 选择C语言的理由 设计特性 高效性 可移植性 强大而且灵活 面向程序员 缺点 C语言的应用范围 计算机能做什么 高级计算机语言和编译器 语言标准 第一个ANSI/ISO C标准 C99标准 C99标准之前，数组的大小都是用常量或者常量表达式来指定 C99标准之后，支持了变长数组，这个时候允许数组的大小是变量，但是这种指定方式的数组是不能初始化的。 C11标准 C语言概述 数据和C 字符串和格...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Gin</div><div class="author-info-description">创作者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Ginphotography"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Ginphotography" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:3888955404@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=9170542878" target="_blank" title="Music"><i class="fa-solid fa-music"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">游戏介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">游戏本体代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#main-c%E6%96%87%E4%BB%B6"><span class="toc-text">main.c文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game-c%E6%96%87%E4%BB%B6"><span class="toc-text">game.c文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game-h%E6%96%87%E4%BB%B6"><span class="toc-text">game.h文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">深入讲解这个游戏</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#main-c%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90"><span class="toc-text">main.c文件分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E4%B8%BB%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-text">main主调函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#game%E5%87%BD%E6%95%B0"><span class="toc-text">game函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#game-h"><span class="toc-text">game.h</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/" title="扫雷游戏"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/links5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扫雷游戏"/></a><div class="content"><a class="title" href="/2026/02/07/%E6%89%AB%E9%9B%B7%E6%B8%B8%E6%88%8F/" title="扫雷游戏">扫雷游戏</a><time datetime="2026-02-07T05:15:15.000Z" title="发表于 2026-02-07 13:15:15">2026-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/06/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="C语言学习记录"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C语言学习记录"/></a><div class="content"><a class="title" href="/2026/02/06/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" title="C语言学习记录">C语言学习记录</a><time datetime="2026-02-06T02:45:00.000Z" title="发表于 2026-02-06 10:45:00">2026-02-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/05/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/" title="hexo搭建博客教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/links1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="hexo搭建博客教程"/></a><div class="content"><a class="title" href="/2026/02/05/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%95%99%E7%A8%8B/" title="hexo搭建博客教程">hexo搭建博客教程</a><time datetime="2026-02-05T06:07:00.000Z" title="发表于 2026-02-05 14:07:00">2026-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/" title="VScode调试教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/photo/VScode/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VScode调试教程"/></a><div class="content"><a class="title" href="/2026/02/04/vscode%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B/" title="VScode调试教程">VScode调试教程</a><time datetime="2026-02-04T06:07:00.000Z" title="发表于 2026-02-04 14:07:00">2026-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客文章"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/huge.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我的第一篇博客文章"/></a><div class="content"><a class="title" href="/2026/02/03/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客文章">我的第一篇博客文章</a><time datetime="2026-02-03T00:45:00.000Z" title="发表于 2026-02-03 08:45:00">2026-02-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Gin</span></div><div class="footer_custom_text">Welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css')
+    if (false) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><div class="aplayer no-destroy" data-id="17734171042" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
